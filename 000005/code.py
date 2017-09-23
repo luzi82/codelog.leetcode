@@ -1,14 +1,24 @@
+import math
+
 class Solution(object):
     def longestPalindrome(self, s):
         """
         :type s: str
         :rtype: str
         """
-        self.s = s
+        ss = '.'.join(list(s))
+        #print(ss)
+        left, right = self.lp1(ss)
+        #print(ss[left:right])
+        #left = int(math.floor((left+1)/2))
+        #right = int(math.floor((right+1)/2))
+        return s[left:right]
 
-        # odd
-        best1_center = None
-        best1_r = -1
+    def lp1(self, s): # return (left, right)
+        self.s = s
+        
+        best_left = None
+        best_right = None
         r1 = [None for i in range(len(s))]
 
         last_center = None
@@ -16,8 +26,8 @@ class Solution(object):
 
         for i in range(len(s)):
             if i == 0:
-                best1_center = i
-                best1_r = 0
+                best_left = 0
+                best_right = 1
                 last_center = i
                 last_r = 0
                 r1[i]=0
@@ -29,46 +39,28 @@ class Solution(object):
             else:
                 mirror_radius = r1[mirror_center]
                 if i + mirror_radius >= last_center+last_r:
-                    r_start = mirror_radius
+                    r_start = last_center+last_r-i
                 else:
                     r1[i] = mirror_radius
                     continue
+            
                 
             radius = self.z1(i, r_start)
+            #print(s, i, r_start,radius, s[i-radius:i+radius+1])
             r1[i] = radius
             if radius > r_start:
                 last_center = i
                 last_r = radius
-                if radius > best1_r:
-                    best1_r = radius
-                    best1_center = i
 
-        len1 = best1_r*2+1
+            my_left = i-radius
+            my_left = int((my_left+1)/2)
+            my_right = i+radius+1
+            my_right = int((my_right+1)/2)
+            if my_right-my_left > best_right-best_left:
+                best_left = my_left
+                best_right = my_right
 
-        # even
-        best0_center = 0
-        best0_r = 0
-        r0 = [None for i in range(len(s))]
-
-        last_center = None
-        last_r = None
-
-        r_start = 0
-        for i in range(len(s)-1):
-            r_start = r_start - 1
-            r_start = max(0, r_start)
-            radius = self.z0(i, r_start)
-            r_start = radius
-            if radius > best0_r:
-                best0_center = i
-                best0_r = radius
-
-        len0 = best0_r*2
-
-        if len1>len0:
-       return s[best1_center-best1_r:best1_center+best1_r+1]
-        else:
-            return s[best1_center-best1_r:best1_center+best1_r]
+        return (best_left, best_right)
 
         
     def z1(self, center, r_start): # odd number, return radius
@@ -83,25 +75,6 @@ class Solution(object):
             if center+next_r >= len(self.s):
                 break
             if self.s[center-next_r] != self.s[center+next_r]:
-                break
-            r=next_r
-            
-        return r
-
-
-    def z0(self, center, r_start): # event number, return radius
-        # ---c---
-        # 2100123
-
-        r = r_start
-        
-        while(True):
-            next_r = r+1
-            if center-next_r < 0:
-                break
-            if center+next_r-1 >= len(self.s):
-                break
-            if self.s[center-next_r] != self.s[center+next_r-1]:
                 break
             r=next_r
             

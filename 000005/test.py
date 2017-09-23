@@ -9,9 +9,11 @@ def tt(s,v):
 
     
 tt('babad',3)
+tt('abb',2)
 tt('banana',5)
 tt('asdfdsa',7)
 tt('qasdfdsappdkfahf',7)
 
 tt('asdfccccasdf',4)
 tt('asdaccccasdf',6)
+tt("babadada",5)
