@@ -1,3 +1,4 @@
+# 85ms
 from collections import deque
 
 class Solution(object):
@@ -26,48 +27,48 @@ class Solution(object):
         
         pp = list(pp)
         
-        bb = [[None for _ in range(len(pp)+1)] for _ in range(len(s)+1)] # [s][pp]
+        bb = [[False for _ in range(len(pp)+1)] for _ in range(len(s)+1)] # [s][pp]
+        bfs = deque()
         
-        return self.do_match(s,pp,bb,0,0)
-    
-    def do_match(self,s,pp,bb,si,pi):
-        
-        if (si==len(s))and(pi==len(pp)):
-            return True
-        
-        if (pi>=len(pp)):
-            return False
-        
-        if (si>len(s)):
-            return False
-        
-        if bb[si][pi]!=None:
-            return bb[si][pi]
-        
-        v = self.do_match_cal(s,pp,bb,si,pi)
-        bb[si][pi] = v
-        return v
-        
-    def do_match_cal(self,s,pp,bb,si,pi):
+        bfs.append((0,0))
+        while(len(bfs)!=0):
+            bfsu = bfs.popleft()
+            si = bfsu[0]
+            pi = bfsu[1]
+            
+            if (si == len(s)) and (pi == len(pp)):
+                return True
+            if (pi == len(pp)):
+                continue
+            if (si > len(s)):
+                continue
+            if bb[si][pi] == True:
+                continue
 
-        pu = pp[pi]
-        pc = pu['c']
+            bb[si][pi] = True
+
+            pu = pp[pi]
+            pc = pu['c']
+            pm = pu['m']
+            
+            if pm:
+                sii = si
+                while(True):
+                    bfs.append((sii,pi+1))
+                    if sii >= len(s):
+                        break
+                    if not self.match_c(s[sii], pc):
+                        break
+                    sii += 1
+            else:
+                if si >= len(s):
+                    continue
+                if self.match_c(s[si],pc):
+                    bfs.append((si+1,pi+1))
         
-        if pu['m']:
-            sii = si
-            while(True):
-                bi = self.do_match(s,pp,bb,sii,pi+1)
-                if bi:
-                    return True
-                if (sii >= len(s)):
-                    break
-                if (s[sii] != pc) and (pc!='.'):
-                    break
-                sii += 1
-            return False
-        else:
-            if si >= len(s):
-                return False
-            if (s[si] != pc) and (pc!='.'):
-                return False
-            return self.do_match(s,pp,bb,si+1,pi+1)
+        return False
+
+    def match_c(self,sc,pc):
+        if pc == '.':
+            return True
+        return sc == pc
