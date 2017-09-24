@@ -8,3 +8,4 @@ def tt(digits,ret):
     assert(set(vv)==set(ret))
 
 tt("23",["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"])
+tt("",[])
