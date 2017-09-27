@@ -1,15 +1,16 @@
 import code
 
-def tt(n,t):
+def test(n,t,expected):
     print(n,t)
-    xx = code.Solution()
-    vv = xx.twoSum(n,t)
-    print(vv)
-    assert(vv[0]!=vv[1])
-    assert(n[vv[0]]+n[vv[1]]==t)
+    solution = code.Solution()
+    result = solution.twoSum(n,t)
+    print(result)
+    assert(result == expected)
+    assert(result[0]!=result[1])
+    assert(n[result[0]]+n[result[1]]==t)
 
     
-tt([2, 7, 11, 15],9)
-tt([2, 7, 11, 15],18)
-tt([2, 7, 11, 15],17)
-tt([3, 2, 4],6)
+test([2, 7, 11, 15],9,[0,1])
+test([2, 7, 11, 15],18,[1,2])
+test([2, 7, 11, 15],17,[0,3])
+test([3, 2, 4],6,[1,2])
