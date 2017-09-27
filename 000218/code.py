@@ -71,7 +71,8 @@ class Solution(object):
             done_x = u
             heapq.heappush(suvh_heap,suvh)
 
-        # remove all point which h same as last
+        # remove all point x > max_v
+        # remove all point h[x]=h[x-1]
         result_list = []
         last_h = 0
         for xh in result_queue:
