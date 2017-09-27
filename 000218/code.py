@@ -75,9 +75,12 @@ class Solution(object):
         result_list = []
         last_h = 0
         for xh in result_queue:
-            if xh[1] == last_h:
+            x,h = tuple(xh)
+            if x > max_v:
+                continue
+            if h == last_h:
                 continue
             result_list.append(xh)
-            last_h = xh[1]
+            last_h = h
 
         return result_list
