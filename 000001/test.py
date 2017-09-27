@@ -1,7 +1,7 @@
 import code
 
 def test(n,t,expected):
-    print(n,t)
+    print(n,t,expected)
     solution = code.Solution()
     result = solution.twoSum(n,t)
     print(result)
