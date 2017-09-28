@@ -40,14 +40,14 @@ class Solution(object):
             elif rptr == len(right_ic_list):
                 left_i, left_c = left_ic_list[lptr]
                 lptr+=1
-                result_ic_list.append((left_i,left_c+rptr+1))
-            elif nums[rptr] < nums[lptr]:
+                result_ic_list.append((left_i,left_c+rptr))
+            elif nums[right_ic_list[rptr][0]] < nums[left_ic_list[lptr][0]]:
                 result_ic_list.append(right_ic_list[rptr])
                 rptr+=1
             else:
                 left_i, left_c = left_ic_list[lptr]
                 lptr+=1
-                result_ic_list.append((left_i,left_c+rptr+1))
+                result_ic_list.append((left_i,left_c+rptr))
 
         return result_ic_list
         
