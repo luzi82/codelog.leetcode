@@ -13,6 +13,7 @@ class Solution(object):
         ssxh_list = sorted(ssxh_list)
 
         # min h of each layer
+        # len(min_h_list) will become the answer
         min_h_list = []
         
         for _,_,_,h in ssxh_list:
