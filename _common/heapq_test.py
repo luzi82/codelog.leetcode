@@ -1,5 +1,8 @@
 import heapq
 
+# heapq.heappush(heap,v)
+# heapq.heappop(heap)
+
 def test():
     import random
     heap = []
