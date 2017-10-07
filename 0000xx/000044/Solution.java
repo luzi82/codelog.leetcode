@@ -1,28 +1,13 @@
 import java.lang.AssertionError;
 import java.util.*;
+import java.util.regex.*;
 
 class Solution {
 
-    static class SP{
-        public int sDone;
-        public int pDone;
-        public SP(int sDone,int pDone){
-            this.sDone=sDone;
-            this.pDone=pDone;
-        }
-        public int hashCode(){
-            return Objects.hash(sDone,pDone);
-        }
-        public boolean equals(Object obj){
-            if (!(obj instanceof SP))return false;
-            SP o =(SP)obj;
-            if(sDone!=o.sDone)return false;
-            if(pDone!=o.pDone)return false;
-            return true;
-        }
-    }
-
     public boolean isMatch(String s, String p) {
+        char[] sCharList = s.toCharArray();
+        char[] tCharList = null;
+    
         // combine all ** to *
         StringBuilder psb = new StringBuilder();
         boolean lastStar = false;
@@ -40,52 +25,72 @@ class Solution {
             }
         }
         p=psb.toString();
-    
-        LinkedList<SP> searchQueue = new LinkedList<>();
-        HashSet<SP> doneSet = new HashSet<>();
         
-        searchQueue.push(new SP(0,0));
-        while(!searchQueue.isEmpty()){
-            SP sp=searchQueue.pop();
-            int sDone = sp.sDone;
-            int pDone = sp.pDone;
-            
-            if ((sDone == s.length()) && (pDone == p.length()))
-                return true;
-            if (pDone == p.length())
-                continue;
-            if (p.charAt(pDone) == '*'){
-                for(int i=sDone;i<=s.length();++i){
-                    push(searchQueue,doneSet,i,pDone+1);
-                }
-                continue;
-            }
-            while(true){
-                if (sDone == s.length())
-                    break;
-                if (pDone == p.length())
-                    break;
-                if (p.charAt(pDone) == '?'){
-                    sDone++;
-                    pDone++;
-                }else if (p.charAt(pDone) == s.charAt(sDone)){
-                    sDone++;
-                    pDone++;
-                }else{
-                    break;
-                }
-            }
-            push(searchQueue,doneSet,sDone,pDone);
+        // edge case: p=""
+        if(p.length()==0){
+            return s.length()==0;
         }
         
-        return false;
+        // split p by *, keep head tail empty str
+        String[] pSplit = ("."+p+".").split(Pattern.quote("*"));
+        pSplit[0] = pSplit[0].substring(1,pSplit[0].length());
+        pSplit[pSplit.length-1] = pSplit[pSplit.length-1].substring(0,pSplit[pSplit.length-1].length()-1);
+        
+        // System.out.println(""+pSplit.length);
+        
+        // no *
+        if(pSplit.length == 1){
+            if(s.length()!=p.length())return false;
+            tCharList = pSplit[0].toCharArray();
+            return match(sCharList,0,sCharList.length,tCharList);
+        }
+        
+        // one *
+        if(pSplit.length == 2){
+            if(s.length()<p.length()-1)return false;
+            tCharList = pSplit[0].toCharArray();
+            if(!match(sCharList,0,sCharList.length,tCharList))return false;
+            tCharList = pSplit[1].toCharArray();
+            if(!match(sCharList,sCharList.length-tCharList.length,sCharList.length,tCharList))return false;
+            return true;
+        }
+        
+        // * count >= 2
+        tCharList = pSplit[0].toCharArray();
+        if(!match(sCharList,0,sCharList.length,tCharList))return false;
+        int sLeftIdx = tCharList.length;
+        tCharList = pSplit[pSplit.length-1].toCharArray();
+        if(!match(sCharList,sCharList.length-tCharList.length,sCharList.length,tCharList))return false;
+        int sRightIdx = sCharList.length-tCharList.length;
+
+        if(sLeftIdx>sRightIdx)return false;
+        
+        //// greedy find pSplit[1:-1] match in s[sLeftIdx:sRightIdx]
+        
+        int si=sLeftIdx;
+        
+        for(int pi=1;pi<pSplit.length-1;++pi){
+            tCharList = pSplit[pi].toCharArray();
+            while(!match(sCharList,si,sRightIdx,tCharList)){
+                si++;
+                if(si+tCharList.length>sRightIdx)return false;
+            }
+            si+=tCharList.length;
+        }
+        return true;
     }
     
-    public static void push(LinkedList<SP> searchQueue,HashSet<SP> doneSet,int sDone,int pDone){
-        SP sp=new SP(sDone,pDone);
-        if(doneSet.contains(sp))return;
-        doneSet.add(sp);
-        searchQueue.push(sp);
+    public static boolean match(char[] sCharList,int sStart,int sEnd,char[] pCharList){
+        int plen = pCharList.length;
+        if(sStart+plen>sCharList.length)return false;
+        if(sStart+plen>sEnd)return false;
+        for(int i=0;i<plen;++i){
+            int si=sStart+i;
+            int pi=i;
+            if(pCharList[pi]=='?')continue;
+            if(pCharList[pi]!=sCharList[si])return false;
+        }
+        return true;
     }
     
     public static void main(String[] argv){
@@ -99,6 +104,7 @@ class Solution {
         test("", "*",true);
         test("", "**",true);
         test("ab", "**b",true);
+        test("ba", "*a*",true);
     }
     
     public static void test(String s,String p,boolean expected){
