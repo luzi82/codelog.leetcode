@@ -39,6 +39,7 @@ class Solution {
                 lastStar = false;
             }
         }
+        p=psb.toString();
     
         LinkedList<SP> searchQueue = new LinkedList<>();
         HashSet<SP> doneSet = new HashSet<>();
