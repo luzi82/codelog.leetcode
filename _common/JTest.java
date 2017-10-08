@@ -52,6 +52,8 @@ public class JTest{
         aassert("aba".split("a").length==2);
         aassert("aba".split("a")[0].equals(""));
         aassert("aba".split("a")[1].equals("b"));
+        
+        aassert(Arrays.toString(new int[]{1,2,3}).equals("[1, 2, 3]"));
     }
 
     public static void aassert(boolean cond){
