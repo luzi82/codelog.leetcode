@@ -1,5 +1,6 @@
 import java.lang.AssertionError;
 import java.util.*;
+import java.util.regex.*;
 
 public class JTest{
 
@@ -46,6 +47,11 @@ public class JTest{
         I i0 = new I(1);
         I i1 = new I(1);
         aassert(i0.equals(i1));
+        
+        aassert("a".split("a").length==0);
+        aassert("aba".split("a").length==2);
+        aassert("aba".split("a")[0].equals(""));
+        aassert("aba".split("a")[1].equals("b"));
     }
 
     public static void aassert(boolean cond){
