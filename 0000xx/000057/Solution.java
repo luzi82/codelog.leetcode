@@ -22,19 +22,21 @@ class Solution {
         LinkedList<Interval> resultList = new LinkedList<>();
         Interval iv = null; // new interval to add
         
+        // comment: []=interval, {}=newInterval
+        
         int ns=newInterval.start;
         int ne=newInterval.end;
         for(Interval interval : intervals){
             int is=interval.start;
             int ie=interval.end;
             if(!startDone){
-                if((ns<is)&&(ne<is)){
+                if((ns<is)&&(ne<is)){ // {} .. [] 
                     resultList.add(newInterval);
                     resultList.add(interval);
                     startDone=true;
                     endDone=true;
                     continue;
-                }else if((ns<=ie)&&(ne<=ie)){
+                }else if((ns<=ie)&&(ne<=ie)){ // {[ .. }]
                     iv = new Interval();
                     iv.start = Math.min(ns,is);
                     iv.end   = ie;
@@ -42,32 +44,32 @@ class Solution {
                     startDone=true;
                     endDone=true;
                     continue;
-                }else if(ns<=ie){
+                }else if(ns<=ie){  // {[ .. ] .. }
                     iv = new Interval();
                     iv.start = Math.min(ns,is);
                     startDone = true;
                     continue;
-                }else{
+                }else{ // [] .. {}
                     resultList.add(interval);
                     continue;
                 }
             }else if(!endDone){
-                if(ne<is){
+                if(ne<is){ // { .. } .. []
                     iv.end = ne;
                     resultList.add(iv);
                     resultList.add(interval);
                     endDone=true;
                     continue;
-                }else if(ne<=ie){
+                }else if(ne<=ie){ // { .. [}]
                     iv.end = Math.max(ne,ie);
                     resultList.add(iv);
                     endDone=true;
                     continue;
-                }else{
+                }else{ // { .. [] .. }
                     // skip interval, do nothing
                     continue;
                 }
-            }else{
+            }else{ // {} .. []
                 resultList.add(interval);
             }
         }
