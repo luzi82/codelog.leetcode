@@ -13,9 +13,10 @@ class Solution {
     }
     
     public static void test(int x,boolean expected){
+        System.out.println(String.format("x=%d, expected=%s",x,expected));
         Solution solution = new Solution();
         boolean result = solution.func(x);
-        System.out.println(String.format("x=%d, exp=%s, act=%s",x,expected,result));
+        System.out.println(String.format("result=%s",result));
         aassert(result == expected);
     }
     
