@@ -13,12 +13,12 @@ class Solution {
         Arrays.fill(resultAry,Integer.MIN_VALUE);
         
         // search in bfs, j=depth
-        // juvToUvMaxMap / uValueMax / vValueMax magic: if 9 found in array, output
+        // juvToUvUvMaxMap / uValueMax / vValueMax magic: if 9 found in array, output
         //   sometime max is not 9, so we do sth to fast search the max
         HashSet<IntTuple> uvSet=new HashSet<>();
-        HashMap<IntTuple, IntTuple> juvToUvMaxMap=new HashMap<>(); // max( num[u:uMax) ) <= juvToUvMaxMap[0/1]
+        HashMap<IntTuple, IntTuple> juvToUvUvMaxMap=new HashMap<>(); // max( num[u:uMax) ) <= juvToUvUvMaxMap[0/1]
         uvSet.add(new IntTuple(new int[]{0,0})); // start point in j=0
-        juvToUvMaxMap.put(new IntTuple(new int[]{0,0,0}),new IntTuple(new int[]{9,9}));
+        juvToUvUvMaxMap.put(new IntTuple(new int[]{0,0,0}),new IntTuple(new int[]{-1,-1,9,9}));
         for(int j=0;j<k;++j){
             int reserve = k-j-1;
             HashSet<IntTuple> nextUvSet=new HashSet<>();
@@ -26,9 +26,11 @@ class Solution {
                 // basic info
                 int u=uv.ary[0];
                 int v=uv.ary[1];
-                IntTuple juvMax = juvToUvMaxMap.get(new IntTuple(new int[]{j,u,v}));
-                int uValueMax = juvMax.ary[0];
-                int vValueMax = juvMax.ary[1];
+                IntTuple juvMax = juvToUvUvMaxMap.get(new IntTuple(new int[]{j,u,v}));
+                int uValueMaxI = juvMax.ary[0];
+                int vValueMaxI = juvMax.ary[1];
+                int uValueMax = juvMax.ary[2];
+                int vValueMax = juvMax.ary[3];
                 
                 // search range
                 int uMax = nums1.length - Math.max(0,reserve-(nums2.length-v));
@@ -39,28 +41,44 @@ class Solution {
                 
                 if(u==uMax){
                     nextU = -1;
+                    uValueMaxI = -1;
                     nextUValue = Integer.MIN_VALUE;
                     uValueMax = 9;
                 }else if(nums1[uMax-1] > uValueMax){
                     nextU = uMax-1;
+                    uValueMaxI = nextU;
+                    nextUValue = nums1[nextU];
+                    uValueMax = nextUValue;
+                }else if((u<=uValueMaxI)&&(uValueMaxI<uMax)){
+                    nextU = uValueMaxI;
+                    uValueMaxI = -1;
                     nextUValue = nums1[nextU];
                     uValueMax = nextUValue;
                 }else{
                     nextU = findMax(nums1,u,uMax,uValueMax);
+                    uValueMaxI = nextU;
                     nextUValue = nums1[nextU];
                     uValueMax = nextUValue;
                 }
 
                 if(v==vMax){
                     nextV = -1;
+                    vValueMaxI = -1;
                     nextVValue = Integer.MIN_VALUE;
                     vValueMax = 9;
                 }else if(nums2[vMax-1] > vValueMax){
                     nextV = vMax-1;
+                    vValueMaxI = nextV;
+                    nextVValue = nums2[nextV];
+                    vValueMax = nextVValue;
+                }else if((v<=vValueMaxI)&&(vValueMaxI<vMax)){
+                    nextV = vValueMaxI;
+                    vValueMaxI = -1;
                     nextVValue = nums2[nextV];
                     vValueMax = nextVValue;
                 }else{
                     nextV = findMax(nums2,v,vMax,vValueMax);
+                    vValueMaxI = nextV;
                     nextVValue = nums2[nextV];
                     vValueMax = nextVValue;
                 }
@@ -70,7 +88,7 @@ class Solution {
                 // ignore case if nextValue smaller than resultAry[j]
                 if(nextValue<resultAry[j])continue;
 
-                juvMax = new IntTuple(new int[]{uValueMax,vValueMax});
+                juvMax = new IntTuple(new int[]{uValueMaxI, vValueMaxI, uValueMax,vValueMax});
 
                 // reset nextUvSet if higher resultAry[j] found
                 if(nextValue>resultAry[j]){
@@ -79,16 +97,16 @@ class Solution {
                 }
 
                 if(nextUValue>nextVValue){
-                    nextUvSet.add    (new IntTuple(new int[]{    nextU+1,v}));
-                    juvToUvMaxMap.put(new IntTuple(new int[]{j+1,nextU+1,v}),juvMax);
+                    nextUvSet.add      (new IntTuple(new int[]{    nextU+1,v}));
+                    juvToUvUvMaxMap.put(new IntTuple(new int[]{j+1,nextU+1,v}),juvMax);
                 }else if(nextUValue<nextVValue){
-                    nextUvSet.add    (new IntTuple(new int[]{    u,nextV+1}));
-                    juvToUvMaxMap.put(new IntTuple(new int[]{j+1,u,nextV+1}),juvMax);
+                    nextUvSet.add      (new IntTuple(new int[]{    u,nextV+1}));
+                    juvToUvUvMaxMap.put(new IntTuple(new int[]{j+1,u,nextV+1}),juvMax);
                 }else{
-                    nextUvSet.add    (new IntTuple(new int[]{    nextU+1,v}));
-                    juvToUvMaxMap.put(new IntTuple(new int[]{j+1,nextU+1,v}),juvMax);
-                    nextUvSet.add    (new IntTuple(new int[]{    u,nextV+1}));
-                    juvToUvMaxMap.put(new IntTuple(new int[]{j+1,u,nextV+1}),juvMax);
+                    nextUvSet.add      (new IntTuple(new int[]{    nextU+1,v}));
+                    juvToUvUvMaxMap.put(new IntTuple(new int[]{j+1,nextU+1,v}),juvMax);
+                    nextUvSet.add      (new IntTuple(new int[]{    u,nextV+1}));
+                    juvToUvUvMaxMap.put(new IntTuple(new int[]{j+1,u,nextV+1}),juvMax);
                 }
             }
             //System.out.println(String.format("output %d",resultAry[j]));
