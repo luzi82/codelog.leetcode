@@ -2,5 +2,5 @@
 
 set -e
 
-javac Solution.java
-java  Solution
+javac Test.java
+java  Test

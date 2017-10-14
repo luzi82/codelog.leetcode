@@ -13,6 +13,8 @@ class Solution {
         Arrays.fill(resultAry,Integer.MIN_VALUE);
         
         // search in bfs, j=depth
+        // juvToUvMaxMap / uValueMax / vValueMax magic: if 9 found in array, output
+        //   sometime max is not 9, so we do sth to fast search the max
         HashSet<IntTuple> uvSet=new HashSet<>();
         HashMap<IntTuple, IntTuple> juvToUvMaxMap=new HashMap<>(); // max( num[u:uMax) ) <= juvToUvMaxMap[0/1]
         uvSet.add(new IntTuple(new int[]{0,0})); // start point in j=0
@@ -111,29 +113,6 @@ class Solution {
             }
         }
         return maxI;
-    }
-    
-    public static void main(String[] argv){
-        test(new int[]{3,4,6,5},new int[]{9,1,2,5,8,3},5,new int[]{9, 8, 6, 5, 3});
-        test(new int[]{6,7},new int[]{6, 0, 4},5,new int[]{6, 7, 6, 0, 4});
-        test(new int[]{3,9},new int[]{8,9},3,new int[]{9,8,9});
-    }
-    
-    public static void test(int[] nums1, int[] nums2, int k,int[] expected){
-        System.out.println(String.format(
-            "nums1=%s, nums2=%s, k=%d, expected=%s",
-            Arrays.toString(nums1),Arrays.toString(nums2),k,Arrays.toString(expected)
-        ));
-        Solution solution = new Solution();
-        int[] result = solution.maxNumber(nums1,nums2,k);
-        System.out.println(String.format("result=%s",Arrays.toString(result)));
-        if(expected!=null){
-            aassert(Arrays.equals(result,expected));
-        }
-    }
-    
-    public static void aassert(boolean cond){
-        if(!cond)throw new AssertionError();
     }
 
     /*
