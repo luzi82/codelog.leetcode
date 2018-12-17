@@ -32,7 +32,7 @@ class Solution {
     
     public static boolean lte(char[][] charAryAry,int a,int b){
         for(int i=0;i<charAryAry.length;++i){
-            if(charAryAry[i][a] >= charAryAry[i][b])return false;
+            if(charAryAry[i][a] > charAryAry[i][b])return false;
         }
         
         return true;
