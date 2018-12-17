@@ -25,7 +25,7 @@ class FreqStack {
     }
     
     public int pop() {
-        // level[max] -= level
+        // level[max] -= id
         int maxLevel = levelToIdListMap.lastKey();
         LinkedList<Integer> maxLevelIdList = levelToIdListMap.get(maxLevel);
         int popId = maxLevelIdList.pop();
