@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import java.math.*;
+import java.util.stream.*;
 
 class Solution {
 
@@ -14,13 +15,13 @@ class Solution {
         DcOut dc = _dc(start,end,A,K);
 
         //System.err.println(String.format("start=%d, end=%d, sum=%d",start,end,dc.sum));
-        //System.err.print("sumStartList");
-        //for(long[] si:dc.sumStartList){
+        //System.err.print("startSumList");
+        //for(long[] si:dc.startSumList){
         //    System.err.print(String.format(" %d-%d",si[0],si[1]));
         //}
         //System.err.println();
-        //System.err.print("sumEndList");
-        //for(long[] si:dc.sumEndList){
+        //System.err.print("endSumList");
+        //for(long[] si:dc.endSumList){
         //    System.err.print(String.format(" %d-%d",si[0],si[1]));
         //}
         //System.err.println();
@@ -29,7 +30,7 @@ class Solution {
         return dc;
     }
 
-    public static DcOut _dc(int start,int end,int[] A, long K) {
+    public static DcOut _dc(int start,int end,int[] A, final long K) {
         DcOut ret = new DcOut();
         if(end==start+1){
             long v = A[start];
@@ -38,8 +39,8 @@ class Solution {
             }else if(v<K){
                 ret.sum = v;
                 if(v>0){
-                    ret.sumStartList.addFirst(new long[]{v,start});
-                    ret.sumEndList.addLast(new long[]{v,end});
+                    ret.startSumList.addFirst(new long[]{start,v});
+                    ret.endSumList.addLast(new long[]{end,v});
                 }
             }
             return ret;
@@ -57,48 +58,52 @@ class Solution {
         ret.sum = lhs.sum + rhs.sum;
 
         // detect mid
-        if((lhs.sumStartList.size()>0)&&(rhs.sumEndList.size()>0)){
-            Iterator<long[]> lhsSumStartItr = lhs.sumStartList.iterator();
-            Iterator<long[]> rhsSumEndItr   = rhs.sumEndList.iterator();
-            long[] lhsSumStart = lhsSumStartItr.next();
-            long[] rhsSumEnd = rhsSumEndItr.next();
+        if((lhs.startSumList.size()>0)&&(rhs.endSumList.size()>0)){
+            Iterator<long[]> lhsStartSumItr = lhs.startSumList.iterator();
+            Iterator<long[]> rhsEndSumItr   = rhs.endSumList.iterator();
+            long[] lhsStartSum = lhsStartSumItr.next();
+            long[] rhsEndSum = rhsEndSumItr.next();
             while(true){
-                long sum = lhsSumStart[0]+rhsSumEnd[0];
+                long sum = lhsStartSum[1]+rhsEndSum[1];
                 if(sum>=K){
-                    ret.ans = (int)Math.min(ret.ans,rhsSumEnd[1]-lhsSumStart[1]);
-                    if(!lhsSumStartItr.hasNext())break;
-                    lhsSumStart = lhsSumStartItr.next();
+                    ret.ans = (int)Math.min(ret.ans,rhsEndSum[0]-lhsStartSum[0]);
+                    if(!lhsStartSumItr.hasNext())break;
+                    lhsStartSum = lhsStartSumItr.next();
                 }else{
-                    if(!rhsSumEndItr.hasNext())break;
-                    rhsSumEnd = rhsSumEndItr.next();
+                    if(!rhsEndSumItr.hasNext())break;
+                    rhsEndSum = rhsEndSumItr.next();
                 }
             }
         }
         
-        long lastSum, currentSum, tmpSum;
+        Stream<long[]> stream;
 
-        // build sumStartList
-        ret.sumStartList = rhs.sumStartList;
-        lastSum = ret.sumStartList.isEmpty()?0:ret.sumStartList.getFirst()[0];
-        Iterator<long[]> itr = lhs.sumStartList.descendingIterator();
-        while(itr.hasNext()){
-            long[] lhsSumStart = itr.next();
-            tmpSum = rhs.sum + lhsSumStart[0];
-            if(tmpSum>=K)break;
-            if(tmpSum<=lastSum)continue;
-            ret.sumStartList.addFirst(new long[]{tmpSum,lhsSumStart[1]});
-            lastSum = tmpSum;
+        // build startSumList
+        {
+            ret.startSumList = rhs.startSumList;
+            final long sumMax = ret.startSumList.isEmpty()?0:ret.startSumList.getFirst()[1];
+            final long plus = rhs.sum;
+            ret.startSumList.addAll(0,
+                lhs.startSumList.stream()
+                    .peek(iv->iv[1]+=plus)
+                    .filter(iv->iv[1]>sumMax)
+                    .filter(iv->iv[1]<K)
+                    .collect(Collectors.toList())
+            );
         }
         
-        // build sumEndList
-        ret.sumEndList = lhs.sumEndList;
-        lastSum = ret.sumEndList.isEmpty()?0:ret.sumEndList.getLast()[0];
-        for(long[] rhsSumEnd:rhs.sumEndList){
-            tmpSum = lhs.sum + rhsSumEnd[0];
-            if(tmpSum>=K)break;
-            if(tmpSum<=lastSum)continue;
-            ret.sumEndList.addLast(new long[]{tmpSum,rhsSumEnd[1]});
-            lastSum = tmpSum;
+        // build endSumList
+        {
+            ret.endSumList = lhs.endSumList;
+            final long sumMax = ret.endSumList.isEmpty()?0:ret.endSumList.getLast()[1];
+            final long plus = lhs.sum;
+            ret.endSumList.addAll(
+                rhs.endSumList.stream()
+                    .peek(iv->iv[1]+=plus)
+                    .filter(iv->iv[1]>sumMax)
+                    .filter(iv->iv[1]<K)
+                    .collect(Collectors.toList())
+            );
         }
         
         return ret;
@@ -107,8 +112,8 @@ class Solution {
     static class DcOut{
         public int ans = Integer.MAX_VALUE;
         public long sum;
-        public LinkedList<long[]> sumStartList=new LinkedList<>(); // sum: big to small, start: small to big
-        public LinkedList<long[]> sumEndList  =new LinkedList<>(); // sum: small to big, end: big to small
+        public LinkedList<long[]> startSumList=new LinkedList<>(); // [0]: start idx, [1]: sum
+        public LinkedList<long[]> endSumList  =new LinkedList<>(); // [0]: end idx, [1]: sum
     }
 
 }
