@@ -89,18 +89,14 @@ class Solution {
             wildCount += (c==WC)?1:0;
             char nextLastChar = c;
             if((c!=WC)&&(c==lastChar)){
-                if(sameCount==0){
-                    sameCount=2;
-                }else{
-                    ++sameCount;
-                }
+                ++sameCount;
                 if(sameCount>=3){
                     tripleCount++;
                     sameCount=0;
                     nextLastChar=WC;
                 }
             }else{
-                sameCount=0;
+                sameCount=1;
             }
             lastChar = nextLastChar;
         }
