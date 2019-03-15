@@ -16,6 +16,15 @@ class Test {
         aassert(result == expected);
     }
     
+    public static String join(Object[] ary){
+        StringBuffer sb=new StringBuffer();
+        for(Object v:ary){
+            sb.append(v.toString());
+            sb.append(",");
+        }
+        return sb.toString();
+    }
+    
     public static void aassert(boolean cond){
         if(!cond)throw new AssertionError();
     }
