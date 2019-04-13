@@ -5,7 +5,7 @@ import java.util.regex.*;
 class Solution {
     public double new21Game(int N, int K, int W) {
         if(N>=K-1+W)return 1;
-        if(N<K)return 1;
+        if(N<K)return 0;
         if(K==0)return 1;
 
         double[] probAry = new double[K];
