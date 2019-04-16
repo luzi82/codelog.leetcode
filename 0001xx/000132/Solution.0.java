@@ -2,7 +2,7 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
-// accepted, runtime O(n^2), mem O(n)
+// accepted, runtime O(n^2), mem O(n^2)
 
 class Solution {
     public int minCut(String s) {
@@ -10,7 +10,9 @@ class Solution {
         if(s.length()==1)return 0;
         
         int[] pivotHeightAry = getPivotHeightAry(s);
-        int[] minJumpCountAry = getMinJumpCountAry(pivotHeightAry);
+        boolean[][] jumpAryAry = getJumpAryAry(pivotHeightAry); // [from][to]
+        //System.err.println(Test.join(jumpAryAry));
+        int[] minJumpCountAry = getMinJumpCountAry(jumpAryAry);
         
         return minJumpCountAry[minJumpCountAry.length-1]-1;
     }
@@ -50,25 +52,35 @@ class Solution {
         return s.charAt(idx/2);
     }
 
-    public static int[] getMinJumpCountAry(int[] pivotHeightAry){
-        int len = ((pivotHeightAry.length+1)/2)+1;
+    public static boolean[][] getJumpAryAry(int[] pivotHeightAry){
+        int sLen = (pivotHeightAry.length+1)/2;
+        boolean[][] retAA = new boolean[sLen+1][sLen+1];
+        for(int pivotIdx=0;pivotIdx<pivotHeightAry.length;++pivotIdx){
+            int pivotHeight = pivotHeightAry[pivotIdx];
+            for(int w=0;w<pivotHeight;++w){
+                int lhs = pivotIdx-w;
+                int rhs = pivotIdx+w;
+                ++lhs;lhs/=2;
+                rhs/=2;++rhs;
+                if(lhs==rhs)continue;
+                retAA[lhs][rhs] = true;
+            }
+        }
+        return retAA;
+    }
+    
+    public static int[] getMinJumpCountAry(boolean[][] jumpAryAry){
+        int len = jumpAryAry.length;
         int[] retA = new int[len];
         retA[0] = 0;
         for(int rhs=1;rhs<len;++rhs){
             int ret = len;
             for(int lhs=0;lhs<rhs;++lhs){
-                if(!canJump(lhs,rhs,pivotHeightAry))continue;
+                if(!jumpAryAry[lhs][rhs])continue;
                 ret = Math.min(ret,retA[lhs]+1);
             }
             retA[rhs] = ret;
         }
         return retA;
-    }
-    
-    public static boolean canJump(int lhs,int rhs,int[] pivotHeightAry){
-        if(rhs==lhs+1)return true;
-        int pivot = lhs+rhs-1;
-        int height = rhs-lhs;
-        return pivotHeightAry[pivot] >= height;
     }
 }
