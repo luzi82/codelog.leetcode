@@ -6,13 +6,14 @@ class Solution {
     public int largestPalindrome(int n) {
         if(n==1)return 9; // hard code
         
-        // loop lhs=999,998,997
+        // n10 = 10^n
         long n10=1;
         for(int i=0;i<n;++i){
             n10*=10;
         }
-        long lhs=n10-1;
         
+        // loop lhs=999,998,997...
+        long lhs=n10-1;
         while(true){
             // build v=999999,998899,997799...
             String lhsString = Long.toString(lhs);
