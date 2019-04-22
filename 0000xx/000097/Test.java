@@ -15,6 +15,7 @@ class Test {
         test("aaabbc","aabbd","aaaabbabbdc",true);
         // judge case
         test("aabcc","dbbca","aadbcbbcac",true);
+        test("aa","ab","aaba",true);
 
     }
     

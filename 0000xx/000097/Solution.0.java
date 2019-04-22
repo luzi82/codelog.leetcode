@@ -2,7 +2,7 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
-// [WKZLRYSMSG]
+// try to remove log from WKZLRYSMSG by using stack instead of tree, WA, test("aa","ab","aaba",true);
 
 class Solution {
 
@@ -31,13 +31,14 @@ class Solution {
         
         if(c1Ary.length+c2Ary.length!=c3Ary.length)return false;
         
-        TreeSet<U> pQueue = new TreeSet<>();
+        LinkedList<Integer> d3Stack=new LinkedList<>();
+        HashMap<Integer,LinkedList<U>> d3ToUList = new HashMap<>();
         HashSet<U> uDoneSet = new HashSet<>();
         
         U u0=new U(0,0);
-        pQueue.add(u0);uDoneSet.add(u0);
-        while(!pQueue.isEmpty()){
-            U u=pQueue.last();pQueue.remove(u);
+        push(u0,d3Stack,d3ToUList,uDoneSet);
+        while(!d3Stack.isEmpty()){
+            U u=pop(d3Stack,d3ToUList);
             
             // go 1
             int done1 = u.done1;
@@ -51,8 +52,7 @@ class Solution {
             if(done3>=c3Ary.length)return true;
             U newU = new U(done1,u.done2);
             if(!uDoneSet.contains(newU)){
-                pQueue.add(newU);
-                uDoneSet.add(newU);
+                push(newU,d3Stack,d3ToUList,uDoneSet);
             }
             
             // go 2
@@ -67,11 +67,36 @@ class Solution {
             if(done3>=c3Ary.length)return true;
             newU = new U(u.done1,done2);
             if(!uDoneSet.contains(newU)){
-                pQueue.add(newU);
-                uDoneSet.add(newU);
+                push(newU,d3Stack,d3ToUList,uDoneSet);
             }
         }
         
         return false;
+    }
+    
+    public static void push(U u0,LinkedList<Integer> d3Stack,HashMap<Integer,LinkedList<U>> d3ToUList,HashSet<U> uDoneSet){
+        int d3 = u0.done1+u0.done2;
+        int maxLen = (d3Stack.isEmpty())?-1:d3Stack.getLast();
+        if(d3>maxLen){
+            d3Stack.addLast(d3);
+        }
+        if(!d3ToUList.containsKey(d3)){
+            d3ToUList.put(d3,new LinkedList<U>());
+        }
+        LinkedList<U> uList = d3ToUList.get(d3);
+        uList.addLast(u0);
+        
+        uDoneSet.add(u0);
+    }
+    
+    public static U pop(LinkedList<Integer> d3Stack,HashMap<Integer,LinkedList<U>> d3ToUList){
+        int maxLen = d3Stack.getLast();
+        LinkedList<U> uList = d3ToUList.get(maxLen);
+        U u = uList.removeLast();
+        if(uList.size()<=0){
+            d3ToUList.remove(maxLen);
+            d3Stack.removeLast();
+        }
+        return u;
     }
 }
