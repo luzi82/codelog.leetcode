@@ -2,9 +2,8 @@ import java.util.*;
 
 class FreqStack {
 
-    HashMap<Integer,LinkedList<Integer>> levelToIdListMap = new HashMap<>();
+    TreeMap<Integer,LinkedList<Integer>> levelToIdListMap = new TreeMap<>();
     HashMap<Integer,Integer> idToCountMap = new HashMap<>();
-    int maxLevel = 0;
 
     public FreqStack() {
     }
@@ -23,17 +22,15 @@ class FreqStack {
             levelToIdListMap.put(idCount, levelIdList);
         }
         levelIdList.push(id);
-        
-        this.maxLevel = Math.max(this.maxLevel, idCount);
     }
     
     public int pop() {
         // level[max] -= id
+        int maxLevel = levelToIdListMap.lastKey();
         LinkedList<Integer> maxLevelIdList = levelToIdListMap.get(maxLevel);
         int popId = maxLevelIdList.pop();
         if(maxLevelIdList.size()==0){
             levelToIdListMap.remove(maxLevel);
-            --maxLevel;
         }
         
         // idToCountMap[id] --
