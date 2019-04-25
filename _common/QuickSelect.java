@@ -5,38 +5,36 @@ import java.util.regex.*;
 public class QuickSelect{
 
     public static int quickSelect(int[] vAry,int k){
-        int start=0,end = vAry.length-1;
-        while(start<end){
-            int pivot = partion(vAry,start,end);
-            if(pivot<k) start = pivot+1;
-            else if(pivot>k) end = pivot-1;
+        int start=0, end=vAry.length;
+        while(true){
+            int[] pivot = partion(vAry,start,end);
+            if(pivot[0]>k) end=pivot[0];
+            else if(pivot[1]<=k) start=pivot[1];
             else return vAry[k];
         }
-        return vAry[k];
     }
 
     public static Random random = new Random(0);
-    public static int partion(int[] vAry,int start,int end){
-        int rIdx = start+random.nextInt(end-start+1);
-        int rVal = vAry[rIdx];
-        swap(vAry,rIdx,end);
-        int s=start,e=end-1;
-        while(s<e){
-            while(s<e && vAry[s]<rVal)++s;
-            while(s<e && vAry[e]>=rVal)--e;
-            if(s>=e)break;
-            swap(vAry,s,e);
+    public static int[] partion(int[] vAry,int start,int end){
+        int rVal = vAry[start+random.nextInt(end-start)];
+        int i=start, j=start, k=end; // vAry[start,i)<rVal, vAry[i,j)==rVal, vAry[k,end)>rVal
+        while(j<k){
+            if(vAry[j]==rVal){
+                ++j;
+            }else if(vAry[j]<rVal){
+                swap(vAry,i,j);
+                ++i;++j;
+            }else{
+                swap(vAry,j,k-1);
+                --k;
+            }
         }
-        while(s<end && vAry[s]<rVal)++s;
-        swap(vAry,s,end);
-        return s;
+        return new int[]{i,j};
     }
     
     public static void swap(int[] vAry,int a,int b){
         int t=vAry[a];vAry[a]=vAry[b];vAry[b]=t;
     }
-
-}
 
     public static void main(String[] argv){
         Random random = new Random(0);
