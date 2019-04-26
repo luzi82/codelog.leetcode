@@ -17,7 +17,8 @@ public class QuickSelect{
     public static Random random = new Random(0);
     public static int[] partion(int[] vAry,int start,int end){
         int rVal = vAry[start+random.nextInt(end-start)];
-        int i=start, j=start, k=end; // vAry[start,i)<rVal, vAry[i,j)==rVal, vAry[k,end)>rVal
+        // vAry[start,i)<rVal, vAry[i,j)==rVal, vAry[k,end)>rVal
+        int i=start, j=start, k=end;
         while(j<k){
             if(vAry[j]==rVal){
                 ++j;
