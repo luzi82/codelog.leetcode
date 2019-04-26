@@ -12,7 +12,7 @@ class Solution {
 
         // death time
         final int EMPTY = -1;
-        final int LIVE = Integer.MAX_VALUE/2;
+        final int LIVE = Integer.MAX_VALUE;
         int[][] deathAA = new int[iMax][jMax];
         for(int i=0;i<iMax;++i)for(int j=0;j<jMax;++j){
             deathAA[i][j] = (grid[i][j]==1)?LIVE:EMPTY;
@@ -75,9 +75,13 @@ class Solution {
             this.d=d;this.i=i;this.j=j;
         }
         public int compareTo(Dij other){
-            if(this.d!=other.d)return this.d-other.d;
-            if(this.i!=other.i)return this.i-other.i;
-            if(this.j!=other.j)return this.j-other.j;
+            // use <> instead of - to avoid overflow, int.max - (-1) < 0
+            if(this.d<other.d)return -1;
+            if(this.d>other.d)return 1;
+            if(this.i<other.i)return -1;
+            if(this.i>other.i)return 1;
+            if(this.j<other.j)return -1;
+            if(this.j>other.j)return 1;
             return 0;
         }
         public boolean equals(Object other){
