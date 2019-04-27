@@ -68,7 +68,7 @@ public class StringSearch{
             }
             String w=wSb.toString();
             
-            System.err.println(String.format("%s %s",s,w));
+            //System.err.println(String.format("%s %s",s,w));
 
             LinkedList<Integer> expList = new LinkedList<>();
             for(int j=0;j<s.length();++j){

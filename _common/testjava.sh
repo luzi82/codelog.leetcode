@@ -10,3 +10,6 @@ java  QuickSelect
 
 javac StringSearch.java
 java  StringSearch
+
+javac BinarySearch.java
+java  BinarySearch
