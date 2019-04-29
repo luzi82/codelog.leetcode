@@ -38,7 +38,7 @@ class Solution {
         
         // carry
         for(int i=0;i<end;++i){
-            if(digiAry[i]!=0)continue;
+            if(digiAry[i]>0)continue;
             digiAry[i] += 26;
             digiAry[i+1]--;
         }

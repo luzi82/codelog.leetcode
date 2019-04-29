@@ -9,8 +9,12 @@ class Test {
         test(1,"A");
         test(28,"AB");
         test(701,"ZY");
+        // my case
         test(702,"ZZ");
         test(703,"AAA");
+        test(18278,"ZZZ");
+        test(18279,"AAAA");
+        test(456976,"YYYZ");
         // judge
         test(1000000001,"CFDGSXM");
     }
