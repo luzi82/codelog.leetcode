@@ -12,7 +12,6 @@ public class BinarySearch{
         int startIdx=0, endIdx=vAry.length;
         while(true){
             int midIdx = (startIdx+endIdx-1)/2;
-            int midV = vAry[midIdx];
             if (vAry[midIdx]==k) return new int[]{1,midIdx};
             if((vAry[midIdx]<k) && (k<vAry[midIdx+1])) return new int[]{0,midIdx};
             if (vAry[midIdx]<k) startIdx=midIdx+1;
