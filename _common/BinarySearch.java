@@ -13,7 +13,7 @@ public class BinarySearch{
         while(true){
             int midIdx = (startIdx+endIdx-1)/2;
             if (k<vAry[midIdx]){endIdx=midIdx;}
-            else if(vAry[midIdx]==k){return new int[]{1,midIdx};}
+            else if(k==vAry[midIdx]){return new int[]{1,midIdx};}
             else if(k<vAry[midIdx+1]){return new int[]{0,midIdx};}
             else{startIdx=midIdx+1;}
         }
