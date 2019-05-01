@@ -2,7 +2,7 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
-// pass, 6ms, 37.5MB
+// v1, pass, 6ms, 37.5MB
 
 class Solution {
 
