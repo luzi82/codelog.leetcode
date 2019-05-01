@@ -6,16 +6,10 @@ class Solution {
     public int countPrimes(int n) {
         if(n<=2)return 0;
         preparePrime(n);
-        // bin searcy
-        if(n>primeV.get(primeV.size()-1))return primeV.size();
-        int startIdx=0,endIdx=primeV.size();
-        while(true){
-            int mIdx = (startIdx+endIdx-1)/2;
-            if(primeV.get(mIdx)==n){return mIdx;}
-            if(primeV.get(mIdx)<n && n<primeV.get(mIdx+1)){return mIdx+1;}
-            if(primeV.get(mIdx)<n){startIdx=mIdx+1;}
-            if(primeV.get(mIdx)>n){endIdx=mIdx;}
-        }
+        // bin search
+        int idx = Collections.binarySearch(primeV,n);
+        if(idx<0){idx=-idx-1;}
+        return idx;
     }
 
     static Vector<Integer> primeV=new Vector<Integer>();
