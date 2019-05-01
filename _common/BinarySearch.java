@@ -12,10 +12,10 @@ public class BinarySearch{
         int startIdx=0, endIdx=vAry.length;
         while(true){
             int midIdx = (startIdx+endIdx-1)/2;
-            if (vAry[midIdx]==k) return new int[]{1,midIdx};
-            if((vAry[midIdx]<k) && (k<vAry[midIdx+1])) return new int[]{0,midIdx};
-            if (vAry[midIdx]<k) startIdx=midIdx+1;
-            if (vAry[midIdx]>k) endIdx=midIdx;
+            if (k<vAry[midIdx]){endIdx=midIdx;}
+            else if(vAry[midIdx]==k){return new int[]{1,midIdx};}
+            else if(k<vAry[midIdx+1]){return new int[]{0,midIdx};}
+            else{startIdx=midIdx+1;}
         }
     }
 
@@ -43,6 +43,21 @@ public class BinarySearch{
                 //System.out.println(String.format("%d %s",k,join(result)));
                 boolean found = result[0]==1;
                 int idx = result[1];
+                if(found){
+                    aassert(vAry[idx] == k);
+                }else{
+                    if(idx>=0){
+                        aassert(vAry[idx] < k);
+                    }
+                    if(idx+1<vAry.length){
+                        aassert(vAry[idx+1] > k);
+                    }
+                }
+
+                result = binarySearch0(vAry, k);
+                //System.out.println(String.format("%d %s",k,join(result)));
+                found = result[0]==1;
+                idx = result[1];
                 if(found){
                     aassert(vAry[idx] == k);
                 }else{
