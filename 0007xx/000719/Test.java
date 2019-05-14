@@ -5,22 +5,22 @@ import java.util.regex.*;
 class Test {
 
     public static void main(String[] argv){
-        // sub test
-        {
-            int[] nums=new int[]{2,0,3,2,2,3,5,5,7};
-            TreeMap<Integer,Integer> nToCountMap = Solution.createNToCountMap(nums);
-            //for(Map.Entry<Integer,Integer> me:nToCountMap.entrySet()){
-            //    System.out.println(String.format("%d %d",me.getKey(),me.getValue()));
-            //}
-            aassert(Arrays.equals(Solution.getRankRange(0,nToCountMap),new int[]{0,5}));
-            aassert(Arrays.equals(Solution.getRankRange(1,nToCountMap),new int[]{5,11}));
-            aassert(on2(nums,10+1)==1);
-            aassert(on2(nums,11+1)==2);
-            aassert(on2(nums,19+1)==2);
-            aassert(on2(nums,20+1)==3);
-            aassert(Arrays.equals(Solution.getRankRange(2,nToCountMap),new int[]{11,20}));
-            aassert(Arrays.equals(Solution.getRankRange(3,nToCountMap),new int[]{20,28}));
-        }
+//        // sub test for Solution.0.java
+//        {
+//            int[] nums=new int[]{2,0,3,2,2,3,5,5,7};
+//            TreeMap<Integer,Integer> nToCountMap = Solution.createNToCountMap(nums);
+//            //for(Map.Entry<Integer,Integer> me:nToCountMap.entrySet()){
+//            //    System.out.println(String.format("%d %d",me.getKey(),me.getValue()));
+//            //}
+//            aassert(Arrays.equals(Solution.getRankRange(0,nToCountMap),new int[]{0,5}));
+//            aassert(Arrays.equals(Solution.getRankRange(1,nToCountMap),new int[]{5,11}));
+//            aassert(on2(nums,10+1)==1);
+//            aassert(on2(nums,11+1)==2);
+//            aassert(on2(nums,19+1)==2);
+//            aassert(on2(nums,20+1)==3);
+//            aassert(Arrays.equals(Solution.getRankRange(2,nToCountMap),new int[]{11,20}));
+//            aassert(Arrays.equals(Solution.getRankRange(3,nToCountMap),new int[]{20,28}));
+//        }
     
         // given
         test(new int[]{1,3,1},1,0);
