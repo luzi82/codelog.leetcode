@@ -5,6 +5,7 @@ import java.util.regex.*;
 class Test {
 
     public static void main(String[] argv){
+        // given
         test(123,true);
     }
     

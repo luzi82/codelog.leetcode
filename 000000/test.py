@@ -7,4 +7,5 @@ def test(input,expected):
     print(result)
     assert(result == expected)
 
+# given
 test(a,b)
