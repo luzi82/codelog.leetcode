@@ -2,5 +2,5 @@
 
 set -e
 
-javac Test.java
+javac -Xlint:unchecked Test.java
 java  Test
