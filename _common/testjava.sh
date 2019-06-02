@@ -13,3 +13,6 @@ java  StringSearch
 
 javac BinarySearch.java
 java  BinarySearch
+
+javac IntAryToVector.java
+java  IntAryToVector
