@@ -1,0 +1,34 @@
+./Solution.java:23: error: incompatible types: int cannot be converted to boolean
+        boolean nodeCount = 0;
+                            ^
+./Solution.java:24: error: bad operand type boolean for unary operator '++'
+        if(root.left!=null){++nodeCount;}
+                            ^
+./Solution.java:25: error: bad operand type boolean for unary operator '++'
+        if(root.right!=null){++nodeCount;}
+                             ^
+./Solution.java:26: error: incomparable types: boolean and int
+        if(nodeCount==0){
+                    ^
+./Solution.java:30: error: incomparable types: boolean and int
+        if(nodeCount==1){
+                    ^
+./Solution.java:35: error: bad operand type boolean for unary operator '--'
+                if(!leftGood){root.left=null;--nodeCount;}
+                                             ^
+./Solution.java:40: error: bad operand type boolean for unary operator '--'
+                if(!rightGood){root.right=null;--nodeCount;}
+                                               ^
+./Solution.java:42: error: incomparable types: boolean and int
+            if(nodeCount==0){
+                        ^
+./Solution.java:49: error: incomparable types: boolean and int
+        if(nodeCount==2){
+                    ^
+./Solution.java:54: error: bad operand type boolean for unary operator '--'
+                if(!leftGood){root.left=null;--nodeCount;}
+                                             ^
+./Solution.java:59: error: bad operand type boolean for unary operator '--'
+                if(!rightGood){root.right=null;--nodeCount;}
+                                               ^
+11 errors
