@@ -50,7 +50,11 @@ class Test {
         for(Object v:ary){
             if(!isFirst){sb.append(",");}
             isFirst=false;
-            sb.append(v.toString());
+            if(v==null){
+                sb.append("null");
+            }else{
+                sb.append(v.toString());
+            }
         }
         sb.append("]");
         return sb.toString();
