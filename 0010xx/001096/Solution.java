@@ -2,62 +2,56 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
+// using str-set-list instead of str-set-list-list
 
 class Solution {
     public List<String> braceExpansionII(String expression) {
-        LinkedList<LinkedList<TreeSet<String>>> strSetListStack = new LinkedList<>();
-        LinkedList<TreeSet<String>> strSetStack = new LinkedList<>();
-        //TreeSet<String> tt0 = new TreeSet<>();
-        //tt0.add("");
-        //strSetStack.addLast(tt0);
-        
         char[] expCharAry = expression.toCharArray();
         
-        LinkedList<TreeSet<String>> strSetList = new LinkedList<>();
-        TreeSet<String> strSet = new TreeSet<>();
-        strSet.add("");
+        LinkedList<TreeSet<String>> strOrSetStack = new LinkedList<>();
+        LinkedList<TreeSet<String>> strConcatSetStack = new LinkedList<>();
         
-        for(char expChar:expCharAry){
+        strConcatSetStack.addLast(new TreeSet<>());
+        strConcatSetStack.getLast().add("");
+        
+        for(char expChar :expCharAry){
             if(expChar=='{'){
-                strSetStack.addLast(strSet);
-                strSetListStack.addLast(strSetList);
-
-                strSetList = new LinkedList<>();
-                strSet = new TreeSet<String>();
-                strSet.add("");
+                strOrSetStack.addLast(new TreeSet<String>());
+                strConcatSetStack.addLast(new TreeSet<>());
+                strConcatSetStack.getLast().add("");
 
                 continue;
             }
             if(expChar=='}'){
-                strSetList.addLast(strSet);
-                
-                LinkedList<TreeSet<String>> strSetList0 = strSetListStack.removeLast();
-                TreeSet<String> strSet0 = strSetStack.removeLast();
+                strOrSetStack.getLast().addAll(strConcatSetStack.removeLast());
+                TreeSet<String> strOrSet = strOrSetStack.removeLast();
 
-                TreeSet<String> newStrSet = new TreeSet<>();
-                for(String str0:strSet0)for(TreeSet<String> strSet1:strSetList)for(String str1:strSet1){
-                    newStrSet.add(str0+str1);
+                TreeSet<String> oldStrConcatSet = strConcatSetStack.removeLast();
+
+                TreeSet<String> newStrConcatSet = new TreeSet<>();
+                for(String oldStrConcat:oldStrConcatSet)for(String strOr:strOrSet){
+                    newStrConcatSet.add(oldStrConcat+strOr);
                 }
                 
-                strSetList = strSetList0;
-                strSet = newStrSet;
+                strConcatSetStack.addLast(newStrConcatSet);
                 continue;
             }
             if(expChar==','){
-                strSetList.addLast(strSet);
-                strSet = new TreeSet<>();
-                strSet.add("");
+                strOrSetStack.getLast().addAll(strConcatSetStack.removeLast());
+                strConcatSetStack.addLast(new TreeSet<>());
+                strConcatSetStack.getLast().add("");
                 continue;
             }
             {
-                TreeSet<String> newStrSet = new TreeSet<>();
-                for(String str:strSet){
-                    newStrSet.add(str+expChar);
+                TreeSet<String> oldStrConcatSet = strConcatSetStack.removeLast();
+                TreeSet<String> newStrConcatSet = new TreeSet<>();
+                for(String oldStrConcat:oldStrConcatSet){
+                    newStrConcatSet.add(oldStrConcat+expChar);
                 }
-                strSet = newStrSet;
+                strConcatSetStack.addLast(newStrConcatSet);
             }
         }
         
-        return new LinkedList<String>(strSet);
+        return new LinkedList<String>(strConcatSetStack.getLast());
     }
 }
