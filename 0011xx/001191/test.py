@@ -11,3 +11,6 @@ def test(input,expected):
 test(([1,2],3),9)
 test(([1,-2,1],5),2)
 test(([-1,-2],7),0)
+
+# wa
+test(([1,-1],7),1)

@@ -29,12 +29,14 @@ class Solution:
         
         ret = 0
         
-        ret = max(ret,mid)
+        ret = max(ret,mid_max)
         
         if k >= 2:
             ret = max(ret, ltr_max+rtl_max)
         
         if k > 2:
             ret = max(ret, ltr_max+rtl_max+((k-2)*arr_sum))
+        
+        ret %= (1000000007)
         
         return ret
