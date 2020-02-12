@@ -6,15 +6,23 @@ class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
         LinkedList<Integer> retList = new LinkedList<>();
         
-        dfs(retList, root);
-        
+        LinkedList<Object> stack = new LinkedList<>();
+        stack.addLast(root);
+        while(!stack.isEmpty()){
+            Object last = stack.removeLast();
+            if(last == null){
+                // do nothing
+            }else if(last instanceof Integer){
+                retList.addLast((Integer) last);
+            }else if (last instanceof TreeNode){
+                TreeNode lastTn = (TreeNode) last;
+                stack.addLast(lastTn.right);
+                stack.addLast(lastTn.val);
+                stack.addLast(lastTn.left);
+            }
+        }
+
         return retList;
     }
-    
-    public void dfs(LinkedList<Integer> retList,TreeNode node){
-        if(node==null)return;
-        dfs(retList,node.left);
-        retList.addLast(node.val);
-        dfs(retList,node.right);
-    }
+
 }
