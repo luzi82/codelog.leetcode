@@ -11,16 +11,17 @@ class Solution {
       if(x%gcd!=0)return -1;
 
       // cal upper limit
-      long vMaxL = 1;
-      vMaxL *= a;
-      vMaxL *= b;
-      vMaxL /= gcd;
-      int vMax = (int)vMaxL;
-      if(a>=b){
-        vMax = x+a;
-      }else{
-        vMax += x;
-      }
+      // long vMaxL = 1;
+      // vMaxL *= a;
+      // vMaxL *= b;
+      // vMaxL /= gcd;
+      // int vMax = (int)vMaxL;
+      // if(a>=b){
+      //   vMax = x+a;
+      // }else{
+      //   vMax += x;
+      // }
+      int vMax = Math.max(x,max(forbidden))+a+b;
 
       // fill forbiddenSet
       HashSet<Integer> forbiddenSet = new HashSet<>();
@@ -66,5 +67,13 @@ class Solution {
       BigInteger bb = BigInteger.valueOf(b);
       BigInteger ret = aa.gcd(bb);
       return ret.intValue();
+    }
+
+    public static int max(int[] vAry){
+      int ret = vAry[0];
+      for(int v:vAry){
+        ret = Math.max(ret, v);
+      }
+      return ret;
     }
 }
