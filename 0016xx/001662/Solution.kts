@@ -15,6 +15,6 @@ class Solution {
         val str1 = sb1.toString();
         val str2 = sb2.toString();
 
-        return str1.equals(str2);
+        return str1 == str2;
     }
 }
