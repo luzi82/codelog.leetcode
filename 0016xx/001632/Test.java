@@ -30,7 +30,12 @@ class Test {
         System.out.println(String.format("result=%s",join(result)));
         aassert(Arrays.deepEquals(result, expected));
     }
-    
+
+      public static void test(int[][] matrix){
+        Solution solution = new Solution();
+        int[][] result = solution.matrixRankTransform(matrix);
+    }
+
     public static String join(int[][] ary){
         StringBuffer sb=new StringBuffer();
         sb.append("[");
