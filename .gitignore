@@ -3,3 +3,4 @@ __pycache__
 /.pydevproject
 *.pyc
 *.class
+*.jar
