@@ -10,6 +10,19 @@ fun test(x: Int, expected: Boolean) {
   aassert(result == expected)
 }
 
+fun join(ary: Array<IntArray>): String {
+  var sb: StringBuffer = StringBuffer()
+  sb.append("[")
+  var isFirst: Boolean=true
+  for(v in ary){
+      if(!isFirst){sb.append(",")}
+      isFirst=false
+      sb.append(join(v))
+  }
+  sb.append("]")
+  return sb.toString()
+}
+
 fun join(ary: IntArray): String {
   var sb: StringBuffer = StringBuffer()
   sb.append("[")
