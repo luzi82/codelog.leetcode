@@ -12,6 +12,14 @@ fun test(x: Int, expected: Boolean) {
   aassert(result == expected)
 }
 
+fun toIntArray(intAry:Array<Int?>):IntArray{
+  val ret:IntArray = IntArray(intAry.size)
+  for(i in intAry.indices){
+    ret[i] = intAry[i]!!
+  }
+  return ret
+}
+
 fun toAry(str:String): Array<Int?>{
   val intList:LinkedList<Int?> = LinkedList<Int?>()
   val cAry = str.toCharArray()
