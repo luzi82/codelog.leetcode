@@ -14,3 +14,5 @@ Z0X=${Z0:0:4}xx
 
 mkdir -p ${Z0X}
 cp -R 000000 ${Z0X}/${Z0}
+
+echo "cd ${Z0X}/${Z0}"
