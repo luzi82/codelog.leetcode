@@ -12,6 +12,70 @@ fun test(x: Int, expected: Boolean) {
   aassert(result == expected)
 }
 
+fun toIntQAryQAryQ(cAry:CharArray,start:Int): Pair<Int,Array<Array<Int?>?>?>{
+  val intQAryQList:LinkedList<Array<Int?>?> = LinkedList<Array<Int?>?>()
+  var i=start
+  if(cAry[i]=='n'){ // null
+    return Pair<Int,Array<Array<Int?>?>?>(i+4,null)
+  }
+  aassert(cAry[i]=='[')
+  i+=1
+  if(cAry[i]==']'){i+=1} // empty ary
+  else{
+    while(true){
+      var ret:Pair<Int,Array<Int?>?> = toIntQAryQ(cAry,i)
+      i = ret.first
+      intQAryQList.add(ret.second)
+      if(cAry[i]==']'){i+=1;break}
+      aassert(cAry[i]==',')
+      i+=1
+    }
+  }
+  return Pair<Int,Array<Array<Int?>?>?>(i,intQAryQList.toArray(Array<Array<Int?>?>(0){null}))
+}
+
+fun toIntQAryQ(cAry:CharArray,start:Int): Pair<Int,Array<Int?>?>{
+  val intQList:LinkedList<Int?> = LinkedList<Int?>()
+  var i=start
+  if(cAry[i]=='n'){ // null
+    return Pair<Int,Array<Int?>?>(i+4,null)
+  }
+  aassert(cAry[i]=='[')
+  i+=1
+  if(cAry[i]==']'){i+=1} // empty ary
+  else{
+    while(true){
+      var ret:Pair<Int,Int?> = toIntQ(cAry,i)
+      i = ret.first
+      intQList.add(ret.second)
+      if(cAry[i]==']'){i+=1;break}
+      aassert(cAry[i]==',')
+      i+=1
+    }
+  }
+  return Pair<Int,Array<Int?>?>(i,intQList.toArray(Array<Int?>(0){null}))
+}
+
+fun toIntQ(cAry:CharArray,start:Int): Pair<Int,Int?>{
+  var i=start
+  if(cAry[i]=='n'){ // null
+    return Pair<Int,Int?>(i+4,null)
+  }
+  var v=0
+  var m=1
+  if(cAry[i]=='-'){
+    m=-1
+    i+=1
+  }
+  while(true){
+    if((i>=cAry.size)||(cAry[i]<'0')||(cAry[i]>'9')){break}
+    v*=10
+    v+=(cAry[i]-'0')
+    i+=1
+  }
+  return Pair<Int,Int?>(i,v*m)
+}
+
 fun toIntArray(intAry:Array<Int?>):IntArray{
   val ret:IntArray = IntArray(intAry.size)
   for(i in intAry.indices){
