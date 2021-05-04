@@ -19,7 +19,19 @@ fun test(s: String) {
   aassert(resultCharAry.joinToString() == sCharAry.joinToString())
 
   resultCharAry = result.toCharArray()
-  
+  var lastBig:Int = Integer.MAX_VALUE
+  var cnt:Int = lastBig
+  var cc:Char = '_'
+  for(c in resultCharAry){
+    if(c!=cc){
+      aassert(cnt<=lastBig)
+      lastBig=cnt
+      cnt=0
+      cc=c
+    }
+    cnt+=1
+  }
+  aassert(cnt<=lastBig)
 }
 
 fun toIntQAryQAryQ(cAry:CharArray,start:Int): Pair<Int,Array<Array<Int?>?>?>{
