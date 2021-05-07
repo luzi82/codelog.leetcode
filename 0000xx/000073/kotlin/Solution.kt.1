@@ -1,0 +1,25 @@
+class Solution {
+    fun setZeroes(matrix: Array<IntArray>): Unit {
+        val ii=matrix.size
+        val jj=matrix[0].size
+        
+        val iZero=Array<Boolean>(ii){false}
+        val jZero=Array<Boolean>(jj){false}
+        
+        for(i in 0..(ii-1)){
+            for(j in 0..(jj-1)){
+                if(matrix[i][j]!=0){continue}
+                iZero[i] = true
+                jZero[j] = true
+            }
+        }
+        
+        for(i in 0..(ii-1)){
+            for(j in 0..(jj-1)){
+                if(iZero[i]||jZero[j]){
+                    matrix[i][j]=0
+                }
+            }
+        }
+    }
+}
