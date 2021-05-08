@@ -5,6 +5,10 @@ class TreeNode(var `val`: Int) {
   var right: TreeNode? = null
 }
 
+fun toTreeNode(str: String):TreeNode?{
+  return toTreeNode(toIntQAryQ(str.toCharArray(),0).second!!)
+}
+
 fun toTreeNode(vAry: Array<Int?>):TreeNode?{
   if(vAry.size==0)return null
 
