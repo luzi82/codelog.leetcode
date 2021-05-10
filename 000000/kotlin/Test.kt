@@ -7,7 +7,7 @@ fun main() {
 fun test(x: Int, expected: Boolean) {
   println("x=%d, expected=%s".format(x, expected))
   var solution: Solution = Solution()
-  var result: Boolean = solution.func(x)
+  var result  = solution.func(x)
   println("result=%s".format(result))
   aassert(result == expected)
 }
