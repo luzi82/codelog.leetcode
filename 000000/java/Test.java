@@ -9,6 +9,79 @@ class Test {
         test(123,true);
     }
     
+    public static int[] toIntAryQ(Integer[] intQAryQ){
+      if(intQAryQ==null)return null;
+      int[] intAry = new int[intQAryQ.length];
+      for(int i=0;i<intAry.length;++i){
+        intAry[i] = intQAryQ[i];
+      }
+      return intAry;
+    }
+    
+    public static Pair<Integer,Integer[][]> toIntQAryQAryQ(char[] cAry,int start){
+      LinkedList<Integer[]> intQAryQList = new LinkedList<>();
+      int i=start;
+      if(cAry[i]=='n'){ // null
+        return new Pair<Integer,Integer[][]>(i+4,null);
+      }
+      aassert(cAry[i]=='[');
+      i+=1;
+      if(cAry[i]==']'){i+=1;} // empty ary
+      else{
+        while(true){
+          Pair<Integer,Integer[]> ret = toIntQAryQ(cAry,i);
+          i = ret.first;
+          intQAryQList.add(ret.second);
+          if(cAry[i]==']'){i+=1;break;}
+          aassert(cAry[i]==',');
+          i+=1;
+        }
+      }
+      return new Pair<Integer,Integer[][]>(i,intQAryQList.toArray(new Integer[0][0]));
+    }
+
+    public static Pair<Integer,Integer[]> toIntQAryQ(char[] cAry,int start){
+      LinkedList<Integer> intQList = new LinkedList<Integer>();
+      int i=start;
+      if(cAry[i]=='n'){ // null
+        return new Pair<Integer,Integer[]>(i+4,null);
+      }
+      aassert(cAry[i]=='[');
+      i+=1;
+      if(cAry[i]==']'){i+=1;} // empty ary
+      else{
+        while(true){
+          Pair<Integer,Integer> ret = toIntQ(cAry,i);
+          i = ret.first;
+          intQList.add(ret.second);
+          if(cAry[i]==']'){i+=1;break;}
+          aassert(cAry[i]==',');
+          i+=1;
+        }
+      }
+      return new Pair<Integer,Integer[]>(i,intQList.toArray(new Integer[0]));
+    }
+    
+    public static Pair<Integer,Integer> toIntQ(char[] cAry,int start){
+      int i=start;
+      if(cAry[i]=='n'){ // null
+        return new Pair<Integer,Integer>(i+4,null);
+      }
+      int v=0;
+      int m=1;
+      if(cAry[i]=='-'){
+        m=-1;
+        i+=1;
+      }
+      while(true){
+        if((i>=cAry.length)||(cAry[i]<'0')||(cAry[i]>'9')){break;}
+        v*=10;
+        v+=(cAry[i]-'0');
+        i+=1;
+      }
+      return new Pair<Integer,Integer>(i,v*m);
+    }
+
     public static void test(int x,boolean expected){
         System.out.println(String.format("x=%d, expected=%s",x,expected));
         Solution solution = new Solution();
