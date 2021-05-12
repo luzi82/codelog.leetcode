@@ -13,14 +13,15 @@ class Test {
     
     public static void test(String numsStr,int expected){
         System.out.println(String.format("nums=%s, expected=%d",numsStr,expected));
-        int[] nums = toIntAry(toIntQAryQ(numsStr.toCharArray(),0).second);
+        int[] nums = toIntAryQ(toIntQAryQ(numsStr.toCharArray(),0).second);
         Solution solution = new Solution();
         int result = solution.singleNumber(nums);
         System.out.println(String.format("result=%s",result));
         aassert(result == expected);
     }
     
-    public static int[] toIntAry(Integer[] intQAryQ){
+    public static int[] toIntAryQ(Integer[] intQAryQ){
+      if(intQAryQ==null)return null;
       int[] intAry = new int[intQAryQ.length];
       for(int i=0;i<intAry.length;++i){
         intAry[i] = intQAryQ[i];
