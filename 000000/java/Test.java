@@ -9,6 +9,23 @@ class Test {
         test(123,true);
     }
     
+    public static void test(int x,boolean expected){
+        System.out.println(String.format("x=%d, expected=%s",x,expected));
+        Solution solution = new Solution();
+        boolean result = solution.func(x);
+        System.out.println(String.format("result=%s",result));
+        aassert(result == expected);
+    }
+    
+    public static int[][] toIntAryQAryQ(Integer[][] intQAryQAryQ){
+      if(intQAryQAryQ==null)return null;
+      int[][] intAryQAry = new int[intQAryQAryQ.length][];
+      for(int i=0;i<intQAryQAryQ.length;++i){
+        intAryQAry[i] = toIntAryQ(intQAryQAryQ[i]);
+      }
+      return intAryQAry;
+    }
+
     public static int[] toIntAryQ(Integer[] intQAryQ){
       if(intQAryQ==null)return null;
       int[] intAry = new int[intQAryQ.length];
@@ -53,7 +70,15 @@ class Test {
         while(true){
           Pair<Integer,Integer> ret = toIntQ(cAry,i);
           i = ret.first;
-          intQList.add(ret.second);
+          intQList.add(ret.second);    public static void test(int x,boolean expected){
+        System.out.println(String.format("x=%d, expected=%s",x,expected));
+        Solution solution = new Solution();
+        boolean result = solution.func(x);
+        System.out.println(String.format("result=%s",result));
+        aassert(result == expected);
+    }
+    
+          
           if(cAry[i]==']'){i+=1;break;}
           aassert(cAry[i]==',');
           i+=1;
@@ -82,14 +107,6 @@ class Test {
       return new Pair<Integer,Integer>(i,v*m);
     }
 
-    public static void test(int x,boolean expected){
-        System.out.println(String.format("x=%d, expected=%s",x,expected));
-        Solution solution = new Solution();
-        boolean result = solution.func(x);
-        System.out.println(String.format("result=%s",result));
-        aassert(result == expected);
-    }
-    
     public static String join(int[][] ary){
         StringBuffer sb=new StringBuffer();
         sb.append("[");
