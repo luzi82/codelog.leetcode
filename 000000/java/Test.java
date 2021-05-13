@@ -70,15 +70,7 @@ class Test {
         while(true){
           Pair<Integer,Integer> ret = toIntQ(cAry,i);
           i = ret.first;
-          intQList.add(ret.second);    public static void test(int x,boolean expected){
-        System.out.println(String.format("x=%d, expected=%s",x,expected));
-        Solution solution = new Solution();
-        boolean result = solution.func(x);
-        System.out.println(String.format("result=%s",result));
-        aassert(result == expected);
-    }
-    
-          
+          intQList.add(ret.second);
           if(cAry[i]==']'){i+=1;break;}
           aassert(cAry[i]==',');
           i+=1;
