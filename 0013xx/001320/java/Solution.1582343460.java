@@ -2,6 +2,8 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
+// solution done in 02/22/2020 11:51 GMT+8
+
 class Solution {
     public int minimumDistance(String word) {
         char[] wordCharAry = word.toCharArray();
