@@ -17,6 +17,14 @@ class Test {
         aassert(result == expected);
     }
     
+    public static int[][] toIntAryQAryQ(String intAryQAryQStr){
+      return toIntAryQAryQ(toIntQAryQAryQ(intAryQAryQStr.toCharArray(),0).second);
+    }
+
+    public static int[] toIntAryQ(String intAryQStr){
+      return toIntAryQ(toIntQAryQ(intAryQStr.toCharArray(),0).second);
+    }
+    
     public static int[][] toIntAryQAryQ(Integer[][] intQAryQAryQ){
       if(intQAryQAryQ==null)return null;
       int[][] intAryQAry = new int[intQAryQAryQ.length][];
