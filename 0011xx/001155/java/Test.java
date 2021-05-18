@@ -6,14 +6,18 @@ class Test {
 
     public static void main(String[] argv){
         // given
-        test(123,true);
+        test(1,6,3,1);
+        test(2,6,7,6);
+        test(2,5,10,1);
+        test(1,2,3,0);
+        test(30,30,500,222616187);
     }
     
-    public static void test(int x,boolean expected){
-        System.out.println(String.format("x=%d, expected=%s",x,expected));
+    public static void test(int d, int f, int target,int expected){
+        System.out.println(String.format("d=%d, f=%d, target=%d, expected=%d",d,f,target,expected));
         Solution solution = new Solution();
-        boolean result = solution.func(x);
-        System.out.println(String.format("result=%s",result));
+        int result = solution.numRollsToTarget(d,f,target);
+        System.out.println(String.format("result=%d",result));
         aassert(result == expected);
     }
     
