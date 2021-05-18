@@ -2,6 +2,8 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
+// This answer do not share node among trees
+
 class Solution {
     public List<TreeNode> allPossibleFBT(int n) {
         LinkedList<TreeNode> retList = new LinkedList<TreeNode>();
