@@ -6,7 +6,18 @@ public class TreeNode {
     public int val;
     public TreeNode left;
     public TreeNode right;
+    TreeNode() {}
     TreeNode(int x) { val = x; }
+    TreeNode(int val, TreeNode left, TreeNode right) {
+      this.val = val;
+      this.left = left;
+      this.right = right;
+    }
+
+    public static TreeNode toTreeNode(String str){
+      Integer[] intQAryQ = Test.toIntQAryQ(str.toCharArray(),0).second;
+      return toTreeNode(intQAryQ);
+    }
 
     public static TreeNode toTreeNode(Integer[] vAry){
         if(vAry.length==0)return null;
@@ -68,4 +79,36 @@ public class TreeNode {
         
         return retList.toArray(new Integer[0]);
     }
+
+    public String toString(){
+      Integer[] intQAry = this.toIntQAry();
+      return Test.join(intQAry);
+    }
+
+    public Integer[] toIntQAry(){
+      LinkedList<Integer> intQList = new LinkedList<>();
+      LinkedList<TreeNode> queue = new LinkedList<TreeNode>();
+      queue.addLast(this);
+      while(queue.size()>0){
+        TreeNode n = queue.removeFirst();
+        if(n==null){
+          intQList.add(null);
+          continue;
+        }
+        intQList.add(n.val);
+        queue.addLast(n.left);
+        queue.addLast(n.right);
+      }
+      
+      Integer[] intQAry = intQList.toArray(new Integer[0]);
+      int lastNonNull = -1;
+      for(int i=0;i<intQAry.length;++i){
+        if(intQAry[i]==null)continue;
+        lastNonNull=i;
+      }
+      
+      intQAry = Arrays.copyOf(intQAry,lastNonNull+1);
+      return intQAry;
+    }
+
 }
