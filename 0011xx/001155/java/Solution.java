@@ -35,7 +35,7 @@ class Solution {
         }
         long[] valueToWayCnt3 = null;
         if(d>=dd*2){
-            int[] valueToWayCnt2 = mergeAry(valueToWayCnt,valueToWayCnt);
+            long[] valueToWayCnt2 = mergeAry(valueToWayCnt,valueToWayCnt);
             valueToWayCnt3 = recursive(dd*2,valueToWayCnt2);
         }else{
             valueToWayCnt3 = new long[1];
