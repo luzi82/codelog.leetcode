@@ -2,6 +2,9 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
+// slower than Solution.0.java
+// but should be better in worst cases
+
 class Solution {
     public int maxResult(int[] nums, int k) {
       int[] idxToSum = new int[nums.length];
