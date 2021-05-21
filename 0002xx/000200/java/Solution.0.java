@@ -2,6 +2,8 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
+// no recursion
+
 class Solution {
     public int numIslands(char[][] grid) {
         if(grid.length==0)return 0;
