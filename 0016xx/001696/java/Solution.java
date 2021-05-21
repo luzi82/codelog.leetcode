@@ -4,34 +4,36 @@ import java.util.regex.*;
 
 class Solution {
     public int maxResult(int[] nums, int k) {
-        int[] idxToSum = new int[nums.length];
-        for(int idx=0;idx<idxToSum.length;++idx){
-          idxToSum[idx]=Integer.MIN_VALUE;
-        }
-        idxToSum[0] = nums[0];
-        int idx=0;
+      int[] idxToSum = new int[nums.length];
+      idxToSum[0] = nums[0];
+      
+      int idxReadDone=-1;
+      int idxWrite=1;
+      TreeMap<Integer,Integer> vToIdxMap = new TreeMap<>();
+      vToIdxMap.put(idxToSum[0],0);
+      while(true){
+        if(idxWrite>=idxToSum.length)break;
+        Map.Entry<Integer,Integer> vToIdxMe = vToIdxMap.lastEntry();
+        int v = vToIdxMe.getKey();
+        int idx = vToIdxMe.getValue();
+        // System.out.println(String.format("CKHEGHLG idx=%d v=%d",idx,v));
+        vToIdxMap.remove(v);
+        if(idx<=idxReadDone)continue;
+        idxReadDone=idx;
         while(true){
-          if(idx>=idxToSum.length-1)break;
-          int oldSum = idxToSum[idx];
-          int bestIdx = -1;
-          int bestV = Integer.MIN_VALUE;
-          for(int j=1;j<=k;++j){
-            int idx0 = idx+j;
-            if(idx0>=nums.length)break;
-            int v = nums[idx0];
-            int newSum = oldSum+v;
-            idxToSum[idx0] = Math.max(idxToSum[idx0],newSum);
-            if(idxToSum[idx0]>=bestV){
-              bestV=idxToSum[idx0];
-              bestIdx=idx0;
-            }
-            if(v>=0){
-              bestIdx=idx0;
-              break;
-            }
+          if(idxWrite>idx+k)break;
+          if(idxWrite>=idxToSum.length)break;
+          idxToSum[idxWrite] = v+nums[idxWrite];
+          if(nums[idxWrite]>0){
+            vToIdxMap.clear();
           }
-          idx=bestIdx;
+          vToIdxMap.put(idxToSum[idxWrite],idxWrite);
+          ++idxWrite;
+          if(nums[idxWrite-1]>0){
+            break;
+          }
         }
-        return idxToSum[idxToSum.length-1];
+      }
+      return idxToSum[idxToSum.length-1];
     }
 }

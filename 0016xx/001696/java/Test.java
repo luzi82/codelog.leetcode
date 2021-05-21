@@ -9,6 +9,8 @@ class Test {
         test("[1,-1,-2,4,-7,3]",2,7);
         test("[10,-5,-2,4,0,3]",3,17);
         test("[1,-5,-20,4,-1,3,-6,-3]",2,0);
+        // WA
+        test("[100,-1,-100,-1,100]",2,198);
     }
     
     public static void test(String numsStr,int k,int expected){
