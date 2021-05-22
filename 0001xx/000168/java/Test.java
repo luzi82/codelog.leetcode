@@ -17,6 +17,7 @@ class Test {
         test(456976,"YYYZ");
         // judge
         test(1000000001,"CFDGSXM");
+        test(2147483647,"FXSHRXW");
     }
     
     public static void test(int n,String expected){

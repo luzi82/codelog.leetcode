@@ -3,37 +3,22 @@ import java.util.*;
 import java.util.regex.*;
 
 class Solution {
-    public String convertToTitle(int n) {
-        // create digiAry, 100 -> [22,3,0...]
-        int remain = n;
-        int[] digiAry = new int[20];
-        for(int i=0;i<digiAry.length;++i){
-            digiAry[i] = remain%26;
-            remain /= 26;
-        }
-
-        // check last non-zero
-        int end = 0;
-        for(int i=0;i<digiAry.length;++i){
-            if(digiAry[i]==0)continue;
-            end = i;
-        }
-        
-        // carry
-        for(int i=0;i<end;++i){
-            if(digiAry[i]>0)continue;
-            digiAry[i] += 26;
-            digiAry[i+1]--;
-        }
-        
-        // build string
-        StringBuffer sb = new StringBuffer();
-        for(int i=digiAry.length-1;i>=0;--i){
-            if(digiAry[i]==0)continue;
-            sb.append((char)('A'-1+digiAry[i]));
-        }
-        
-        // output
-        return sb.toString();
+  public String convertToTitle(int n) {
+    Vector<Character> retRevVec = new Vector<>();
+    while(n>0){
+      int d = ((n%26)+25)%26; // beware of super big n
+      retRevVec.add((char)('A'+d));
+      --n;
+      n/=26;
     }
+    
+    char[] retCharAry = new char[retRevVec.size()];
+    for(int i=0;i<retRevVec.size();++i){
+      int j = retCharAry.length-1-i;
+      retCharAry[j] = retRevVec.get(i);
+    }
+    
+    String retStr = new String(retCharAry);
+    return retStr;
+  }
 }
