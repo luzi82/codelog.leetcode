@@ -2,6 +2,8 @@ import java.lang.AssertionError;
 import java.util.*;
 import java.util.regex.*;
 
+// old solution, as there can be repeat val, not works anymore
+
 class Solution {
     public Node copyRandomList(Node head) {
         if(head==null)return null;
