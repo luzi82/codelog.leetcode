@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 if [ "$#" -ne 1 ]; then
   echo "${0} [PROBLEM_NUM]"
@@ -15,4 +15,4 @@ Z0X=${Z0:0:4}xx
 mkdir -p ${Z0X}
 cp -R 000000 ${Z0X}/${Z0}
 
-echo "cd ${Z0X}/${Z0}"
+cd ${Z0X}/${Z0}
